@@ -4,7 +4,8 @@
   "description": "My Zameen Property Website",
   "main": "App.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon App.js"
   },
   "keywords": [
     "My",
@@ -22,7 +23,6 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.3",
-    "cors": "^2.8.5",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "path": "^0.12.7"
