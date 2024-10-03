@@ -9,5 +9,5 @@ app.get("/getData", (req, res, next)=>{
     res.send("Hello from Backend");
 });
 
-app.listen(3000);
+app.listen(3001);
 console.log("App is Running");
