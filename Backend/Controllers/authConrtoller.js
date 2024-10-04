@@ -1,5 +1,6 @@
 const userModel = require('../Models/userModel');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 
 // Signup Logic
 
@@ -68,3 +69,74 @@ exports.login = async (req, res, next)=>{
         res.status(500).json({error: "Server Error"});
     }
 }
+
+exports.forgotpassword = async (req, res, nex) =>{
+    const {email} = req.body;
+    console.log(req.body);
+    try{
+        const db = req.app.locals.db;
+        // Find user by Email
+        const user = await userModel.findUserByEmail(db, email);
+        if(!user){
+            res.status(400).json({error: 'User does not exist'});
+        }
+        // generate 4 digits random Otp
+        const otp = Math.floor(1000 + Math.random() * 9000);
+
+        // Save the otp in the database with expiration time
+
+        const otpExpiration = new Date(Date.now() + 10 * 60000);
+        await db.collection('users').updateOne({email}, {$set: {otp, otpExpiration}});
+
+        // setup nodemailer for sending mails
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'mainishqorrdard@gmail.com',
+                pass: 'bphn prke xphu mgcs',
+
+            },
+        });
+        const mailOptions = {
+            from: 'mainishqorrdard@gmail.com',
+            to: email,
+            subject: 'Reset Password',
+            text: `Your otp for password reset is: ${otp} Its is valid for 10 minutes`
+        }
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({message: 'Otp sent on your mail'});
+    } catch (error){
+        console.error('Error during password reset', error);
+        res.status(500).json({error: 'Server Error'});
+    }
+}
+
+exports.resetpassword = async (req, res, next)=>{
+    const {email, otp, newpassword, confirmpassword} = req.body;
+    console.log(req.body);
+    if(newpassword !==confirmpassword){
+        res.status(500).json({error: 'Password does not match'});
+    }
+
+    const db = req.app.locals.db;
+    try{
+        const user = await userModel.findUserByEmail(db, email);
+        if(!user || user.otp !== parseInt(otp) || new Date() > user.otpExpiration){
+            res.status(500).json({error:'Invalid or Expired otp'})
+        }
+        // Hash new Password 
+        const hashedPassword = await bcrypt.hash(newpassword, 5);
+
+        // Update the user password and remove the otp
+
+        db.collection('users').updateOne(
+            {email},
+            {$set: {password: hashedPassword}, $unset:{otp: "", otpExpiration:""}}
+        )
+        res.status(200).json({message: "Password changed successfuly"});
+    } catch(error){
+        console.error('Error during password reset', error);
+        res.status(500).json({error: 'Server Error'});
+    };
+};
