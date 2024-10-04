@@ -4,6 +4,7 @@ const userModel = require('../Models/userModel');
 
 exports.signUp = async (req, res, next) =>{
     const {name, email, password, role} = req.body;
+    console.log("Request received:", req.body);
 
     // Validate the role 
 

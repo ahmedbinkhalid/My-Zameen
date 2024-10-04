@@ -20,6 +20,8 @@ MongoConnect(client =>{
 });
 
 
+// Testing code for retrival of data from database
+
 // const express = require("express");
 // const cors = require("cors");
 // const MongoConnect = require('./util/database');

@@ -7,7 +7,7 @@ exports.createUser = async (db, userData)=>{
 
     // Hash the password Before Saving
 
-    const hashPassword = await bcrypt.hash(password, 30);
+    const hashPassword = await bcrypt.hash(password, 5);
 
     const user = {
         name,
