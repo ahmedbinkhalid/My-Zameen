@@ -1,4 +1,5 @@
 const userModel = require('../Models/userModel');
+const bcrypt = require('bcrypt');
 
 // Signup Logic
 
@@ -33,3 +34,37 @@ exports.signUp = async (req, res, next) =>{
     }
 
 };
+
+// Login Logic
+
+exports.login = async (req, res, next)=>{
+    const {email, password} = req.body;
+    console.log('Request Recieved: ', req.body);
+
+    if (!email || !password){
+        return res.status(400).json({error: "Email and Password are required"});
+    }
+
+    try{
+        const db = req.app.locals.db;
+
+        // Find User by Email
+        const user = await userModel.findUserByEmail(db, email);
+        if(!user){
+            return res.status(400).json({error: "User does not exist"});
+        }
+        // Compare Password with hashed password if the database
+        const isMatch = await bcrypt.compare(password, user.password)
+
+        if(!isMatch){
+            return res.status(400).json({error:"Invalid Email or Password"})
+        }
+        // Successful Login
+
+        res.status(200).json({message: 'Logged in successuly', user:{id: user._id, name: user.name, role: user.role}});
+    }
+    catch(error){
+        console.error('Error During Login:', error);
+        res.status(500).json({error: "Server Error"});
+    }
+}
