@@ -9,17 +9,22 @@ interface CardData {
 
 export const BuySellRentCard : React.FC <CardData> = ({imagePath, heading, mainData, btnData}) => {
   return (
-    <div className='bg-white rounded-2xl py-16 justify-center '>
-        <div className='flex flex-col gap-6 font-sans text-[#37474F]'>
-      <div className='self-center'>
-      <img alt='InvestWantedCard' src={imagePath} className='object-cover h-auto w-auto '/>
-      </div>
-      <h1 className='text-xl font-bold text-center'> {heading}</h1>
-      <p className='text-base italic text-center h-8 w-1/2 self-center mb-4'> {mainData} </p>
-      <button className='border-[0.5px] border-[#37474F] rounded-lg px-6 py-2 font-semibold self-center'>
-         {btnData}
-        </button>
+    <div className='bg-white rounded-2xl shadow-md overflow-hidden flex flex-col justify-between p-6 md:p-8'>
+    <div className='flex justify-center mb-4'>
+      <img 
+        alt='Invest Wanted Card' 
+        src={imagePath} 
+        className='object-contain w-auto h-auto rounded-md'
+      />
     </div>
-    </div>
+
+    <h1 className='text-lg md:text-xl font-bold text-center mb-2'>{heading}</h1>
+
+    <p className='text-sm md:text-base text-gray-600 text-center mb-4'>{mainData}</p>
+
+    <button className='border-[0.5px] border-[#37474F] rounded-lg px-6 py-2 font-semibold self-center max-sm:my-auto'>
+      {btnData}
+    </button>
+  </div>
   )
 }

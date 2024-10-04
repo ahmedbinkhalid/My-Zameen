@@ -24,18 +24,19 @@ export const InvestWanted = () => {
         }
     ]
   return (
-    <section className='grid grid-cols-2 gap-52 px-52 py-8'>
-        {
+
+    <section className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+         {
                 investWantedData.map((objData, index) => (
-                    <InvestWantedCard 
-                        key={index}
-                        path={objData.path}
-                        heading={objData.heading}
-                        data={objData.data}
-                        btnData = {objData.btnData}
-                    />
-                ))
-            }
-    </section>
+                     <InvestWantedCard 
+                         key={index}
+                         path={objData.path}
+                         heading={objData.heading}
+                         data={objData.data}
+                         btnData = {objData.btnData}
+                     />
+                 ))
+             }
+</section>
   )
 }
