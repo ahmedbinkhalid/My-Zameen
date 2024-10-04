@@ -7,7 +7,7 @@ exports.createUser = async (db, userData)=>{
 
     // Hash the password Before Saving
 
-    const hashPassword = await bcrypt.hash(password, 30);
+    const hashPassword = await bcrypt.hash(password, 5);
 
     const user = {
         name,
@@ -24,6 +24,6 @@ exports.createUser = async (db, userData)=>{
     // Function to find user by Email
 
  exports.findUserByEmail = async (db, email) =>{
-    const user = await db.collection('users').findOne({email: email});
+    const user = await db.collection('users').findOne({email});
     return user;
  }
