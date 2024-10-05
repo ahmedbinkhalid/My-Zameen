@@ -99,7 +99,7 @@ exports.forgotpassword = async (req, res, nex) =>{
             },
         });
         const mailOptions = {
-            from: 'mainishqorrdard@gmail.com',
+            from: 'My Zameen',
             to: email,
             subject: 'Reset Password',
             text: `Your otp for password reset is: ${otp} Its is valid for 10 minutes`
