@@ -18,12 +18,12 @@ const BuyRent: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-[100vh] bg-cover  bg-center" style={{ backgroundImage: `url('https://www.graana.com/_next/image/?url=%2Fhome-page-images%2FHeaderImage.png&w=1920&q=75')` }}>
+    <div className="relative w-full h-[85vh] bg-cover  bg-center" style={{ backgroundImage: `url('https://www.graana.com/_next/image/?url=%2Fhome-page-images%2FHeaderImage.png&w=1920&q=75')` }}>
 
-    <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
+    <div className="absolute inset-0 flex flex-col justify-center items-center text-center gap-10 mt-5">
       
       {/* Heading with two parts */}
-      <div className="text-white mb-6">
+      <div className="text-white">
         <h1 className="text-2xl md:text-4xl font-bold">
         Buy or rent vetted properties at the
         </h1>
@@ -31,7 +31,7 @@ const BuyRent: React.FC = () => {
         most trusted online real estate portal
         </h1>
       </div>
-      <div className="flex space-x-4 mb-6">
+      <div className="flex space-x-4">
       <BuyRentButton 
             data="Buy" 
             isActive={isFirstButtonActive} 

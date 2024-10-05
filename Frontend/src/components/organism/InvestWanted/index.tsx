@@ -38,5 +38,6 @@ export const InvestWanted = () => {
                  ))
              }
 </section>
+
   )
 }

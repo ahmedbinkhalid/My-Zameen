@@ -5,7 +5,7 @@ import { BuySellRentCard } from "../../atoms/BuySellRentCard";
 export const BuySellRent = () => {
   return (
     <section className="md:px-24 px-20 py-24 relative overflow-hidden "> 
-
+    
   <main className='flex flex-col justify-between gap-16 relative z-10'> 
     <div className='bg-[#37474F] opacity-35 rounded-full md:h-32 md:w-32 h-24 w-24 absolute top-0 left-0 transform -translate-x-1/2 translate-y-1/2'></div> 
     <div className='bg-red-400 rounded-full md:h-32 md:w-32 h-24 w-24 absolute bottom-0 right-0 transform translate-x-1/2 -translate-y-1/2'></div> 
