@@ -1,4 +1,6 @@
 // Model for Creating blogs
+
+const MongoDB = require("mongodb");
  exports.createBlog = async (db, blogData) =>{
     const {title, content, author, images} = blogData;
     const blog ={
@@ -23,7 +25,30 @@
  exports.approveBlog = async (db, blogId) => {
     const blog = await db.collection('pendingblogs').findOne({_id: new MongoDB.ObjectId(blogId)});
     if(blog){
-        await db.collection('approvedblogs').insertOne(blog);
+
+        // Set the status to Approved
+        const approvedBlog = {
+            ...blog,
+            status: 'Approved',
+            approvedAt: new Date()
+        }
+        await db.collection('approvedblogs').insertOne(approvedBlog);
+        await db.collection('pendingblogs').deleteOne({_id: new MongoDB.ObjectId(blogId)});
+    };
+ };
+
+ // For rejecting the blog by the Admin
+
+ exports.rejectBlog = async (db, blogId)=>{
+    const blog = await db.collection('pendingblogs').find({_id: new MongoDB.ObjectId(blogId)});
+    if(blog){
+        // Set the status to Rejected
+        const rejectedBlog = {
+            ...blog,
+            status: 'Rejected',
+            rejectedAt: new Date()
+        }
+        await db.collection('rejectedblogs').insertOne(rejectedBlog);
         await db.collection('pendingblogs').deleteOne({_id: new MongoDB.ObjectId(blogId)});
     };
  };

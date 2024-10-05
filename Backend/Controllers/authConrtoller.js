@@ -1,6 +1,7 @@
 const userModel = require('../Models/userModel');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 
 // Signup Logic
 
@@ -60,9 +61,12 @@ exports.login = async (req, res, next)=>{
         if(!isMatch){
             return res.status(400).json({error:"Invalid Email or Password"})
         }
+
+        //Generate JWT Token
+        const token = jwt.sign({id: user._id, role: user.role}, 'myzameen!@#$%^&*()',{expiresIn: '1h'});
         // Successful Login
 
-        res.status(200).json({message: 'Logged in successuly', user:{id: user._id, name: user.name, role: user.role}});
+        res.status(200).json({message: 'Logged in successuly', token, user:{id: user._id, name: user.name, role: user.role}});
     }
     catch(error){
         console.error('Error During Login:', error);

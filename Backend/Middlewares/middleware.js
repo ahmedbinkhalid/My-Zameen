@@ -1,4 +1,19 @@
 // Setting up the middleware to restrict the permissions
+const jwt = require('jsonwebtoken');
+
+exports.verifyToken = (req, res, next)=>{
+    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+    if(!token){
+        return res.status(403).json({error: 'No token provided'});
+    }
+    jwt.verify(token, 'myzameen!@#$%^&*()', (err, decoded)=>{
+        if(err){
+            return res.status(403).json({error: 'Failed to authenticate token'});
+        }
+        req.user = decoded;
+        next();
+    });
+};
 
 exports.isBlogger = (req, res, next)=>{
     if(req.user.role === 'Blogger'){
