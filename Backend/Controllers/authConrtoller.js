@@ -1,11 +1,15 @@
 const userModel = require('../Models/userModel');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 
 // Signup Logic
 
 exports.signUp = async (req, res, next) =>{
-    const {name, email, password, role} = req.body;
+    const {name, email, password, confirmpassword, role} = req.body;
+    if(password !==confirmpassword){
+        return res.status(400).json({error: 'Passwords do not match'});
+    }
     console.log("Request received:", req.body);
 
     // Validate the role 
@@ -60,9 +64,12 @@ exports.login = async (req, res, next)=>{
         if(!isMatch){
             return res.status(400).json({error:"Invalid Email or Password"})
         }
+
+        //Generate JWT Token
+        const token = jwt.sign({id: user._id, role: user.role}, 'myzameen!@#$%^&*()',{expiresIn: '1h'});
         // Successful Login
 
-        res.status(200).json({message: 'Logged in successuly', user:{id: user._id, name: user.name, role: user.role}});
+        res.status(200).json({message: 'Logged in successuly', token, user:{id: user._id, name: user.name, role: user.role}});
     }
     catch(error){
         console.error('Error During Login:', error);
@@ -99,7 +106,7 @@ exports.forgotpassword = async (req, res, nex) =>{
             },
         });
         const mailOptions = {
-            from: 'mainishqorrdard@gmail.com',
+            from: 'My Zameen',
             to: email,
             subject: 'Reset Password',
             text: `Your otp for password reset is: ${otp} Its is valid for 10 minutes`
