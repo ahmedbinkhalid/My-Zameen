@@ -6,7 +6,10 @@ const jwt = require('jsonwebtoken');
 // Signup Logic
 
 exports.signUp = async (req, res, next) =>{
-    const {name, email, password, role} = req.body;
+    const {name, email, password, confirmpassword, role} = req.body;
+    if(password !==confirmpassword){
+        return res.status(400).json({error: 'Passwords do not match'});
+    }
     console.log("Request received:", req.body);
 
     // Validate the role 
