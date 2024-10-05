@@ -40,7 +40,7 @@ const MongoDB = require("mongodb");
  // For rejecting the blog by the Admin
 
  exports.rejectBlog = async (db, blogId)=>{
-    const blog = await db.collection('pendingblogs').find({_id: new MongoDB.ObjectId(blogId)});
+    const blog = await db.collection('pendingblogs').findOne({_id: new MongoDB.ObjectId(blogId)});
     if(blog){
         // Set the status to Rejected
         const rejectedBlog = {
